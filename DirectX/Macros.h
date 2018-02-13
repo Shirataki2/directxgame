@@ -1,0 +1,8 @@
+#define FULLSCREEN_MODE 1
+#define WINDOW_MODE 0
+#define KEY_PUSHING 2
+#define KEY_PUSHDOWN 1
+#define TITLE_NEW_GAME 0
+#define TITLE_LOAD_GAME 1
+#define TITLE_CONFIG 2
+#define TITLE_EXIT 3
