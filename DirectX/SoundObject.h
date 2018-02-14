@@ -13,7 +13,12 @@ class SoundObject
 public:
 	static void Init();
 	int GetHandle();
-	SoundObject(char *src, float pitchCent = 0.0f, float stretchRate = 1.0f, bool async = true);
+	SoundObject(
+		char *src,
+		float pitchCent = 0.0f,
+		float stretchRate = 1.0f,
+		bool async = true
+	);
 	bool IsPlay();
 	virtual void Play();
 	virtual void Stop();
@@ -23,3 +28,8 @@ public:
 	~SoundObject();
 };
 
+class MusicObject {
+public:
+	MusicObject(char *src);
+	virtual void Stop();
+};

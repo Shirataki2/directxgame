@@ -27,9 +27,10 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
+	typedef GameData gd;
 	if (mainmenu->IsLoadingResources()) return;
 	mainmenu->Update();
-	if (GameData::key[KEY_INPUT_Z]) {
+	if (PUSHED(GD::Button1)) {
 		Execute();
 	}
 }

@@ -1,7 +1,7 @@
 ﻿#include "Game.h"
 
 FPS Game::*fps = NULL;
-SoundObject Game::*dbgSound = NULL;
+MusicObject Game::*dbgSound = NULL;
 
 Game::Game()
 {
@@ -45,19 +45,19 @@ int Game::Instantiate(int sizeX,int sizeY,int windowMode,std::string windowName)
 	ChangeWindowMode(windowMode);
 	SceneManager::ChangeScene(SceneManager::TITLE);
 	fps = new FPS(GameData::NormalizedX(0.9), 0);
-	dbgSound = new SoundObject("Data/Music/dummy.mp3",100.0f,1.0f);
+	dbgSound = new MusicObject("Data/Music/dummy.mp3");
 	int tt = 0;
-	while (CheckHandleASyncLoad(dbgSound->GetHandle()) && !ProcessMessage() && !ClearDrawScreen())
-	{
-		DrawString(GameData::NormalizedX(1.0) - 100,
-			GameData::NormalizedY(1.0) - 25,
-			"初期化中…", GetColor(tt % 255, tt % 255, tt % 255));
-		tt += 10;
-		ScreenFlip();
-	}
-	dbgSound->SetVolume(255);
-	dbgSound->SetPan(0);
-	dbgSound->Play();
+	//while (CheckHandleASyncLoad(dbgSound->GetHandle()) && !ProcessMessage() && !ClearDrawScreen())
+	//{
+	//	DrawString(GameData::NormalizedX(1.0) - 100,
+	//		GameData::NormalizedY(1.0) - 25,
+	//		"初期化中…", GetColor(tt % 255, tt % 255, tt % 255));
+	//	tt += 10;
+	//	ScreenFlip();
+	//}
+	//dbgSound->SetVolume(255);
+	//dbgSound->SetPan(0);
+	//dbgSound->Play();
 	return 0;
 }
 
@@ -69,10 +69,15 @@ void Game::Destroy()
 int Game::Update()
 {
 	if (!ProcessMessage() && !ClearDrawScreen()) {
+#ifdef _DEBUG
+		DrawFormatString(0, 50, GetColor(255, 255, 255),
+			"%d", GameData::keyState);
+		DrawFormatString(0, 75, GetColor(255, 255, 255),
+			"%d", GameData::keyStateOn);
+#endif // _DEBUG
 		GameData::KeyUpdate();
 		Move();
 		Draw();
-		ScreenFlip();
 		return 0;
 	}
 	return -1;
@@ -81,7 +86,9 @@ int Game::Update()
 int Game::Move()
 {
 	SceneManager::Update();
+//#ifdef _DEBUG
 	fps->Update();
+//#endif // _DEBUG
 	return 0;
 }
 
@@ -97,5 +104,6 @@ void Game::Run()
 	while (Update() == 0) {
 		GetHitKeyStateAll(key);
 		if (key[KEY_INPUT_ESCAPE]) break;
+		ScreenFlip();
 	}
 }

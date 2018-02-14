@@ -74,3 +74,13 @@ SoundObject::~SoundObject()
 {
 	DeleteSoundMem(m_SHandle);
 }
+
+MusicObject::MusicObject(char * src)
+{
+	PlayMusic(src, DX_PLAYTYPE_BACK);
+}
+
+void MusicObject::Stop()
+{
+	StopMusic();
+}

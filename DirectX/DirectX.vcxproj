@@ -162,9 +162,12 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="MenuContainer.cpp" />
     <ClCompile Include="MenuElement.cpp" />
+    <ClCompile Include="MyShip.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundObject.cpp" />
     <ClCompile Include="StageTemplate.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TitleScene.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +183,8 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SoundObject.h" />
     <ClInclude Include="StageTemplate.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <ItemGroup>

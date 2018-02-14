@@ -12,7 +12,7 @@ class Game
 {
 protected:
 	FPS *fps;
-	SoundObject *dbgSound;
+	MusicObject *dbgSound;
 public:
 	Game();
 	Game(int sizeX, int sizeY, int windowMode,std::string windowName="Game");

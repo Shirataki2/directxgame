@@ -68,11 +68,12 @@ int MenuContainer::GetSelect()
 
 void MenuContainer::Update()
 {
-	if (GameData::key[KEY_INPUT_S]==KEY_PUSHDOWN) {
+
+	if (PUSHED(GD::Up)) {
 		m_pSelect = (m_pSelect + 1) % m_nElem;
 		selectSound->Play();
 	}
-	if (GameData::key[KEY_INPUT_W]==KEY_PUSHDOWN) {
+	if (PUSHED(GD::Down)) {
 		m_pSelect = (m_pSelect + m_nElem - 1) % m_nElem;
 		selectSound->Play();
 	}
