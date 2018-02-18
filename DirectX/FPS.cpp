@@ -27,12 +27,12 @@ void FPS::Update()
 	m_fps = 1000.0 / m_duration;
 	dq_fps.pop_back();
 	dq_fps.push_front(m_fps);
-	for (auto it=dq_fps.begin();it<dq_fps.end();it++)
+	for (auto it=dq_fps.begin();it!=dq_fps.end();it++)
 	{
 		m_sumFps += *it;
 	}
 	if (count%m_n == 0) {
-		aveFps = m_sumFps / m_n;
+		aveFps = m_sumFps / (m_n - 1);
 	}
 	DrawFormatString(m_x, m_y, GetColor(255, 255, 255),
 		"%.2f", aveFps);

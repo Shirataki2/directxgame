@@ -11,8 +11,11 @@
 class Game
 {
 protected:
+
 	FPS *fps;
 	MusicObject *dbgSound;
+	bool Loading();
+	void ResourceInit();
 public:
 	Game();
 	Game(int sizeX, int sizeY, int windowMode,std::string windowName="Game");

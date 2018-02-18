@@ -30,9 +30,10 @@ bool SoundObject::IsPlay()
 	return CheckSoundMem(m_SHandle) == 1;
 }
 
-void SoundObject::Play()
+void SoundObject::Play(int volume,int pan)
 {
-	
+	SetVolume(volume);
+	SetPan(pan);
 	PlaySoundMem(m_SHandle, DX_PLAYTYPE_BACK);
 }
 
@@ -77,7 +78,7 @@ SoundObject::~SoundObject()
 
 MusicObject::MusicObject(char * src)
 {
-	PlayMusic(src, DX_PLAYTYPE_BACK);
+	PlayMusic(src, DX_PLAYTYPE_LOOP);
 }
 
 void MusicObject::Stop()

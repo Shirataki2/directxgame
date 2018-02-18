@@ -22,6 +22,6 @@ public:
 	int Draw();
 	int Selected();
 	int Disselected();
-	int Execute();
+	virtual int Execute();
 };
 

@@ -1,29 +1,15 @@
 #include "StageTemplate.h"
 
-MyShip StageTemplate::*myship = NULL;
-Texture StageTemplate::*t_myship = NULL;
 
 StageTemplate::StageTemplate()
 {
-	myship = new MyShip();
-	t_myship = new Texture(0,"Data/Img/MyShip.png");
-	myship->SetTexture(t_myship);
+	myship = new MyShip(GD::Res->Find(T_MSHIP),3);
+	enemy1 = new DebugEmemy(GD::Res->Find(T_D_ENEMY),
+		0.0f, 0.008f, 1200.0 , 3.0);
+	frame = new StaticObject(GD::Res->Find(T_BACK));
+	score = new Score(T_BITNUM, 750, 153, 10);
 }
 
-bool StageTemplate::Loading(int skip) {
-	static int t = 0;
-	bool loading = CheckHandleASyncLoad(t_myship->GetHandle());
-	if (skip) return loading;
-	if (loading) {
-		DrawFormatString(
-			GD::winSizeX - 100,
-			GD::winSizeY - 25,
-			GetColor(t % 255, t % 255, t % 255),
-			"Loading%4d", t/25);
-		t += 25;
-	}
-	return loading;
-}
 
 StageTemplate::~StageTemplate()
 {
@@ -31,8 +17,10 @@ StageTemplate::~StageTemplate()
 
 void StageTemplate::Update()
 {
-	if (Loading(true))return;
 	UpdateTask(GD::MyShipList);
+	UpdateTask(GD::BulletList);
+	UpdateTask(GD::EnemyList);
+	UpdateTask(GD::CommonList);
 }
 
 void StageTemplate::UpdateTask(TaskList * list)
@@ -40,21 +28,29 @@ void StageTemplate::UpdateTask(TaskList * list)
 	for (TaskIter i(list); i.HasNext();) {
 		GameObject *obj = static_cast<GameObject*>(i.Next());
 		obj->Move();
+		if (!obj->alive) i.Remove();
 	}
 }
 
 void StageTemplate::Draw()
 {
-	if (Loading()) return;
-	DrawString(0, 0, "You Are on Debug Stage!",
-		GetColor(255, 255, 255));
+	int num = DrawTask(GD::BulletList);
 	DrawTask(GD::MyShipList);
+	DrawTask(GD::EnemyList);
+	DrawTask(GD::CommonList);
+	DrawFormatString(0, 0, GetColor(255, 255, 255),
+		"%d", num);
+	DrawFormatString(0, 50, GetColor(255, 255, 255),
+		"%d", enemy1->t);
 }
 
-void StageTemplate::DrawTask(TaskList * list)
+int StageTemplate::DrawTask(TaskList * list)
 {
+	int j = 0;
 	for (TaskIter i(list); i.HasNext();) {
 		GameObject *obj = static_cast<GameObject*>(i.Next());
 		obj->Draw();
+		j++;
 	}
+	return j;
 }

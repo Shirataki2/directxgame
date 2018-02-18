@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DebugEmemy">
+    <Position X="5.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAIAAEAAAAIAAAAAAAAAAAYBAAAQAAAAAAAA=</HashCode>
+      <FileName>Enemies.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FPS">
+    <Position X="17.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAAAAQAAAAAAAABAAACAAQQAIAACAIAAAAACAAAAA=</HashCode>
+      <FileName>FPS.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IBaseScene">
+    <Position X="11.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IBaseScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Game">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAIAAAgAAAAQAAYBAAAjAAAAAABAAAAAAAAI=</HashCode>
+      <FileName>Game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameData">
+    <Position X="1.75" Y="9" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="GameData::KeyState" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>GameData.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>BAgAAQAAAhgCIgAAEAAEAMBAAYAIAAAAAAgAAAAAgIA=</HashCode>
+      <FileName>GameData.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAABAIACAgIAAAAAAAACBCACABAAAAByAAJAAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MyShip">
+    <Position X="3.5" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="GameObject" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="6" Y="5.261" />
+        <Point X="6" Y="5.787" />
+        <Point X="4.25" Y="5.787" />
+        <Point X="4.25" Y="6.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAIAAAAACAAEAAQAAoAAEAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy">
+    <Position X="5.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAgAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bullet">
+    <Position X="8.75" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="GameObject" ManuallyRouted="true">
+      <Path>
+        <Point X="6" Y="5.261" />
+        <Point X="6" Y="5.792" />
+        <Point X="9.5" Y="5.792" />
+        <Point X="9.5" Y="6.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAIAAAAAAAAAAAQAAAAAAAYBAAAAAAAAQAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StaticObject">
+    <Position X="1.75" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="GameObject" ManuallyRouted="true">
+      <Path>
+        <Point X="6" Y="5.261" />
+        <Point X="6" Y="5.801" />
+        <Point X="2.5" Y="5.801" />
+        <Point X="2.5" Y="6.25" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAgAIAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuContainer">
+    <Position X="16.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEUJAAZAAAAAAxQQAAAARAAEAAAAAgAIAAAAAAAEAIA=</HashCode>
+      <FileName>MenuContainer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuElement">
+    <Position X="14.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAUAQAIAAAAAAwQBAACAQAAEQAAAAgAAAABAAAAAAAI=</HashCode>
+      <FileName>MenuElement.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager">
+    <Position X="14.25" Y="1" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SceneManager::SCENE" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SceneManager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundObject">
+    <Position X="19.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAACIAABgAAAoAIAAAAIAEAAACAoAECAAAAgAA=</HashCode>
+      <FileName>SoundObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MusicObject">
+    <Position X="18.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIgAAAAAAAAA=</HashCode>
+      <FileName>SoundObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="StageTemplate">
+    <Position X="10.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAAABAAAgAAgAAAACAAAAAAAAAAAAAAAAAAQAAIAI=</HashCode>
+      <FileName>StageTemplate.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskList">
+    <Position X="14.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQBAAAAAAACAgAAAAAAAABAHAACAAAAAAAAAAQAA=</HashCode>
+      <FileName>Task.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Task">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAQAAQAAAAAAAAAAAEBAAAIAAAA=</HashCode>
+      <FileName>Task.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TaskIter">
+    <Position X="16.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAAAABAAAAABAAABAAQAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Task.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Texture">
+    <Position X="10.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAAAAgAAAAAAAAEAAAAAAAAAAEAKAAAAAAAA=</HashCode>
+      <FileName>Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DivTexture">
+    <Position X="13.25" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAYCAAAEAEAAAAAAABgwACAAAAAAAAEACgAAIAAwI=</HashCode>
+      <FileName>Texture.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceHolder">
+    <Position X="15.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAhAAAAAAAAAAAAAAAEJgAAAAAAkAAAAAAI=</HashCode>
+      <FileName>ResourceHolder.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TitleImage">
+    <Position X="7" Y="6.25" Width="1.5" />
+    <InheritanceLine Type="GameObject" ManuallyRouted="true">
+      <Path>
+        <Point X="6" Y="5.261" />
+        <Point X="6" Y="5.787" />
+        <Point X="7.75" Y="5.787" />
+        <Point X="7.75" Y="6.25" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.081" Y="0.074" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TitleScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TitleScene">
+    <Position X="13" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAgQAAAQAAIAAAAAAAJAAAAAAAAAAAAA=</HashCode>
+      <FileName>TitleScene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Typedef Name="GD" Collapsed="true">
+    <Position X="3.75" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameData.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="Yu Gothic UI" Size="9" />
+</ClassDiagram>

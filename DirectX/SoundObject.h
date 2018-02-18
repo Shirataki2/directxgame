@@ -20,7 +20,7 @@ public:
 		bool async = true
 	);
 	bool IsPlay();
-	virtual void Play();
+	virtual void Play(int volume = 255, int pan = 0);
 	virtual void Stop();
 	virtual void Delete();
 	void SetVolume(int volume);

@@ -3,6 +3,44 @@
 FPS Game::*fps = NULL;
 MusicObject Game::*dbgSound = NULL;
 
+bool Game::Loading()
+{
+	return GD::Res->IsLoading();
+}
+
+void Game::ResourceInit()
+{
+	GD::Res->Register(
+		T_MSHIP,
+		new Texture(T_MSHIP, "Data/Img/MyShip.png"));
+	GD::Res->Register(
+		T_D_ENEMY,
+		new Texture(T_D_ENEMY, "Data/Img/EnemyDummy.png"));
+	GD::Res->Register(
+		T_D_BUL,
+		new Texture(T_D_BUL, "Data/Img/BulletDummy.png"));
+	GD::Res->Register(
+		T_BACK,
+		new Texture(T_BACK, "Data/Img/back2.png"));
+	GD::Res->Register(
+		T_NBUL,
+		new DivTexture(T_NBUL, "Data/Img/bul.png",
+			9, 9, 1, 16, 16));
+	GD::Res->Register(
+		T_BITNUM,
+		new DivTexture(T_BITNUM, "Data/Img/nums.png",
+			10, 10, 1, 32, 32));
+	GD::Res->Register(
+		S_DEAD,
+		new SoundObject("Data/Sound/Th/dead.wav"));
+	GD::Res->Register(
+		S_E_SHOT,
+		new SoundObject("Data/Sound/Th/shot1.wav"));
+	GD::Res->Register(
+		S_GRAZE,
+		new SoundObject("Data/Sound/Th/graze.wav"));
+}
+
 Game::Game()
 {
 	Instantiate(GameData::winSizeX, GameData::winSizeY, GameData::isFullScreen,"Sample");
@@ -42,22 +80,18 @@ int Game::Instantiate(int sizeX,int sizeY,int windowMode,std::string windowName)
 	SetWaitVSyncFlag(TRUE);
 	SetMainWindowText(windowName.c_str());
 	SetDrawScreen(DX_SCREEN_BACK);
+	SetUseBackBufferTransColorFlag(FALSE);
 	ChangeWindowMode(windowMode);
+	ResourceInit();
+	while (Loading()) {
+		ProcessMessage();
+		ClearDrawScreen();
+		DrawString(0, 0, "初期化中…", GetColor(255, 255, 255));
+		ScreenFlip();
+	}
 	SceneManager::ChangeScene(SceneManager::TITLE);
 	fps = new FPS(GameData::NormalizedX(0.9), 0);
 	dbgSound = new MusicObject("Data/Music/dummy.mp3");
-	int tt = 0;
-	//while (CheckHandleASyncLoad(dbgSound->GetHandle()) && !ProcessMessage() && !ClearDrawScreen())
-	//{
-	//	DrawString(GameData::NormalizedX(1.0) - 100,
-	//		GameData::NormalizedY(1.0) - 25,
-	//		"初期化中…", GetColor(tt % 255, tt % 255, tt % 255));
-	//	tt += 10;
-	//	ScreenFlip();
-	//}
-	//dbgSound->SetVolume(255);
-	//dbgSound->SetPan(0);
-	//dbgSound->Play();
 	return 0;
 }
 
@@ -68,16 +102,12 @@ void Game::Destroy()
 
 int Game::Update()
 {
-	if (!ProcessMessage() && !ClearDrawScreen()) {
-#ifdef _DEBUG
-		DrawFormatString(0, 50, GetColor(255, 255, 255),
-			"%d", GameData::keyState);
-		DrawFormatString(0, 75, GetColor(255, 255, 255),
-			"%d", GameData::keyStateOn);
-#endif // _DEBUG
+	if (!ProcessMessage()) {
 		GameData::KeyUpdate();
 		Move();
+		ClearDrawScreen();
 		Draw();
+		ScreenFlip();
 		return 0;
 	}
 	return -1;
@@ -86,15 +116,15 @@ int Game::Update()
 int Game::Move()
 {
 	SceneManager::Update();
-//#ifdef _DEBUG
-	fps->Update();
-//#endif // _DEBUG
 	return 0;
 }
 
 int Game::Draw()
 {
 	SceneManager::Draw();
+	DrawFormatString(0, 25, GetColor(255, 255, 255),
+		"%8d", GD::score);
+	fps->Update();
 	return 0;
 }
 
@@ -104,6 +134,6 @@ void Game::Run()
 	while (Update() == 0) {
 		GetHitKeyStateAll(key);
 		if (key[KEY_INPUT_ESCAPE]) break;
-		ScreenFlip();
+		if (PUSHED(GD::B6))GD::isColVisible = !GD::isColVisible;
 	}
 }

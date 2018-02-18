@@ -2,14 +2,13 @@
 
 
 
-//----------
 
 TitleImage TitleScene::*m_title = NULL;
 MenuContainer TitleScene::*mainmenu = NULL;
 
 TitleScene::TitleScene()
 {
-	mainmenu = new MenuContainer(4, false, GameData::Font_Gothic_Big);
+	mainmenu = new MenuContainer(4, false);
 	mainmenu->SetSource(0, "New Game");
 	mainmenu->SetSource(1, "Load Game");
 	mainmenu->SetSource(2, "Config");
