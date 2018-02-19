@@ -18,6 +18,7 @@ class TitleScene :
 private:
 	MenuContainer *mainmenu;
 	TitleImage *m_title;
+	MusicObject *bgm = 0;
 public:
 	TitleScene();
 	~TitleScene();

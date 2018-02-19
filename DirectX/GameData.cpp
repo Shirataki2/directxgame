@@ -4,10 +4,10 @@ int GameData::winSizeX = 1440;
 int GameData::stageSizeX = 700;
 int GameData::winSizeY = 1080;
 int GameData::stageSizeY = 640;
-int GameData::regionNumX = 5;
-int GameData::regionNumY = 5;
-int GameData::regionSizeX = 740 / 5;
-int GameData::regionSizeY = 680 / 5;
+int GameData::regionNumX = 2;
+int GameData::regionNumY = 2;
+int GameData::regionSizeX = 740 / 2;
+int GameData::regionSizeY = 680 / 2;
 
 char GameData::key[256] = {0};
 unsigned int GameData::keyState = 0;
@@ -19,7 +19,7 @@ TaskList* GameData::CommonList = new TaskList(500, 200);
 ResourceHolder* GameData::Res = NULL;
 int GameData::isColVisible = 0;
 const float GameData::SPD = 0.000002;
-int GameData::score = 0;
+unsigned long long GameData::score = 0uLL;
 
 
 
@@ -109,5 +109,10 @@ void GameData::MoveTo(double & x, double & y, int dst_x, int dst_y, double t)
 {
 	x += (dst_x - x)*t;
 	y += (dst_y - y)*t;
+}
+
+void GameData::InitTask(TaskList * list)
+{
+	for (TaskIter i(list); i.HasNext(); i.Next(), i.Remove());
 }
 

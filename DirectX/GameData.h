@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "DxLib.h"
 #include "Task.h"
 #include <math.h>
@@ -13,16 +13,26 @@ class ResouceHolder;
 #define IS_PUSHING(button) ((GD::keyStateOn & (button))!=0)
 #define PUSHING_ONLY(button) (GD::keyStateOn & (button) == (button))
 
+//  0 -  FF 自機関連のテクスチャ
 #define T_NIL		0x000
-#define T_MSHIP		0x010
-#define T_D_ENEMY	0x020
-#define T_D_BUL		0x030
-#define T_NBUL		0x031 // 31 - 39
-#define S_DEAD		0x100
-#define S_E_SHOT	0x101
-#define S_GRAZE		0x102
-#define T_BACK		0x300
-#define T_BITNUM	0x310 // 310-319
+#define T_D_MSHIP	0x001
+#define T_MYSHIP	0x002 // 002 - 007
+//100 - 2FF 敵機関連のテクスチャ
+#define T_D_ENEMY	0x100
+//300 - 7FF 　弾関連のテクスチャ
+#define T_D_BUL		0x300
+#define T_NBUL		0x301 // 301 - 309
+#define T_FUGUBUL	0x310 // 310 - 317
+#define T_SBIGBUL	0x320 // 320 - 327
+#define T_KNIFBUL	0x330 // 330 - 337
+#define T_FUDABUL	0x340 // 340 - 34A
+//800 - 9FF 静的オブジェクトのテクスチャ
+#define T_BACK		0x800
+#define T_BITNUM	0x810 // 810 - 819
+//A00 - AFF 効果音
+#define S_DEAD		0xA00
+#define S_E_SHOT	0xA01
+#define S_GRAZE		0xA02
 
 class GameData {
 public:
@@ -44,7 +54,7 @@ public:
 		B9			= 1 << 14,
 		B0			= 1 << 15,
 	};
-	static int score;
+	static unsigned long long score;
 	static int isColVisible;
 	static ResourceHolder *Res;
 	static unsigned int keyState;
@@ -69,6 +79,7 @@ public:
 	static TaskList *EnemyList;
 	static TaskList *BulletList;
 	static TaskList *CommonList;
+	static void InitTask(TaskList* list);
 	static const float SPD;
 
 };

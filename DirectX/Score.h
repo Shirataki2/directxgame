@@ -5,7 +5,7 @@ class Score :
 	public StaticObject
 {
 	int m_x, m_y;
-	int m_score;
+	unsigned long long m_score;
 public:
 	Score(int startTexID,int x,int y,int num=10);
 	int Move();

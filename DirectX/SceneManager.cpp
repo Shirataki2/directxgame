@@ -14,6 +14,10 @@ void SceneManager::Draw()
 
 int SceneManager::ChangeScene(SCENE scene)
 {
+	GD::InitTask(GD::BulletList);
+	GD::InitTask(GD::MyShipList);
+	GD::InitTask(GD::EnemyList);
+	GD::InitTask(GD::CommonList);
 	if (pScene != NULL) {
 		delete pScene;
 	}

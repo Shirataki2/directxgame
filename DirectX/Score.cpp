@@ -18,14 +18,18 @@ int Score::Move()
 
 int Score::Draw()
 {
-	int numDigit = 9;
-	int _n = m_score;
+	int numDigit = 0;
+	unsigned long long _n = m_score;
 	int xr;
-	//for (int i = 10; i <= m_score; i*=10)
-	//{
-	//	numDigit++;
-	//}
-	xr = m_x + numDigit*cx * 2;
+	for (unsigned long long i = 10uLL; i <= m_score; i*=10uLL)
+	{
+		numDigit++;
+		if (numDigit == 19) break;
+	}
+	numDigit = numDigit <= 9 ? 9: numDigit;
+	int over;
+	over = numDigit >= 10 ? numDigit - 9 : 0;
+	xr = m_x - over * cx * 2 + numDigit*cx * 2;
 	for (int i = 0; i <= numDigit; i++)
 	{
 		DrawGraph(xr, m_y,

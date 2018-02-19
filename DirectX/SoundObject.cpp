@@ -76,8 +76,9 @@ SoundObject::~SoundObject()
 	DeleteSoundMem(m_SHandle);
 }
 
-MusicObject::MusicObject(char * src)
+MusicObject::MusicObject(char * src,int vol)
 {
+	SetVolumeMusic(vol);
 	PlayMusic(src, DX_PLAYTYPE_LOOP);
 }
 

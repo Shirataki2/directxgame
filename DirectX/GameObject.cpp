@@ -4,8 +4,23 @@
 GameObject::GameObject(TaskList *list, double x, double y, double angle,int colsize,int grz)
 	:Task(list),
 	x(x),y(y),angle(angle),scale(1),alpha(1),
-	alive(true),colSize(colsize),grzSize(grz)
+	alive(true),colSize(colsize),grzSize(grz),
+	isMultiTexture(false)
 {
+}
+
+GameObject::GameObject(TaskList * list, double x, double y, int stopMotionID, int stopMotionNum, int leftMotionID, int leftMotionNum, int rightMotionID, int rightMotionNum, int colsize, int grzSize)
+	: Task(list),x(x),y(y), angle(angle), scale(1), alpha(1),
+	alive(true), colSize(colsize), grzSize(grzSize),
+	m_smid(stopMotionID),
+	m_lmid(leftMotionID),
+	m_rmid(rightMotionID),
+	m_smnm(stopMotionNum),
+	m_lmnm(leftMotionNum),
+	m_rmnm(rightMotionNum),
+	isMultiTexture(true)
+{
+
 }
 
 
@@ -22,7 +37,8 @@ int GameObject::Move()
 
 int GameObject::Draw()
 {
-	DrawGraph(x, y, textureHandle, TRUE);
+	//DrawGraph(x, y, textureHandle, TRUE);
+	DrawRotaGraph2(x + cx, y + cy, cx, cy, scale, 2 * pi*angle + pi/2, textureHandle, TRUE);
 	if (GD::isColVisible) {
 		DrawCircle(x + cx, y + cy, grzSize, GetColor(0, 0, 255));
 		DrawCircle(x + cx, y + cy, colSize, GetColor(0, 255, 0));
@@ -41,6 +57,13 @@ void GameObject::CalcResion()
 void GameObject::SetColSize(int size)
 {
 	colSize = size;
+}
+
+void GameObject::SetMotionInterval(int stop, int left, int right)
+{
+	m_smiv = stop;
+	m_lmiv = left;
+	m_rmiv = right;
 }
 
 bool GameObject::IsHit(GameObject * obj)
@@ -90,6 +113,142 @@ void GameObject::SetTexture(Texture * texture)
 	textureID = texture->ID;
 	cx = GD::Res->Find(textureID)->GetSizeX() / 2;
 	cy = GD::Res->Find(textureID)->GetSizeY() / 2;
+}
+
+void MyShip::MoveSub()
+{
+	switch (isMultiTexture)
+	{
+	case true:
+		if (PUSHING(GD::Left | GD::Right) == 0) {
+			m_lmpt = m_rmpt = 0;
+			m_lmps = m_rmps = 0;
+			if ((++m_smpt%m_smiv) == 0) {
+				m_smps = (++m_smps) % m_smnm;
+			}
+			SetTexture(GD::Res->Find(m_smid + m_smps));
+			textureID = m_smid + m_smps;
+		}
+		if (PUSHING(GD::Left)) {
+			m_rmpt = m_smpt = 0;
+			m_rmps = m_smps = 0;
+			if ((++m_lmpt%m_lmiv) == 0) {
+				m_lmps = (++m_lmps) % m_lmnm;
+			}
+			SetTexture(GD::Res->Find(m_lmid + m_lmps));
+		}
+		if (PUSHING(GD::Right)) {
+			m_lmpt = m_smpt = 0;
+			m_lmps = m_smps = 0;
+			if ((++m_rmpt%m_rmiv) == 0) {
+				m_rmps = (++m_rmps) % m_rmnm;
+			}
+			SetTexture(GD::Res->Find(m_rmid + m_rmps));
+		}
+	case false:
+		if (PUSHING(GD::Up))    y += m_spd;
+		if (PUSHING(GD::Down))  y -= m_spd;
+		if (PUSHING(GD::Left))  x -= m_spd;
+		if (PUSHING(GD::Right)) x += m_spd;
+		break;
+	default:
+		break;
+	}
+}
+
+void * MyShip::operator new(size_t n) {
+	return GD::MyShipList->New(n);
+}
+void MyShip::operator delete(void *p) {
+	GD::MyShipList->Delete(p);
+}
+
+int MyShip::Draw()
+{
+	DrawRotaGraph2(x + cx, y + cx, cx, cy, scale, 2 * pi*angle, textureHandle, TRUE);
+	if (GD::isColVisible) {
+		DrawCircle(x + cx, y + cy, grzSize, GetColor(0, 0, 255));
+		DrawCircle(x + cx, y + cy, colSize, GetColor(0, 255, 0));
+	}
+	return 0;
+}
+
+
+MyShip::MyShip()
+	:GameObject(GD::MyShipList,
+		GD::NormalizedX(0.5),
+		GD::NormalizedY(0.5),
+		0)
+{
+}
+
+MyShip::MyShip(Texture * myshiptexture, int colsize, int grzSize)
+	:GameObject(GD::MyShipList,
+		GD::StageX(0.5),
+		GD::StageY(0.8),
+		0,
+		colsize,
+		grzSize)
+{
+	this->SetTexture(myshiptexture);
+}
+
+MyShip::MyShip(Texture * myshiptextures, int stopMotionID, int stopMotionNum, int leftMotionID, int leftMotionNum, int rightMotionID, int rightMotionNum, int colsize, int grzSize)
+	:GameObject(GD::MyShipList,GD::StageX(0.5),
+		GD::stageSizeY-40,stopMotionID,stopMotionNum,
+		leftMotionID,leftMotionNum,rightMotionID,rightMotionNum,
+		colsize,grzSize)
+{
+}
+
+MyShip::MyShip(Texture * myshiptextures, int stopMotionID, int stopMotionNum, int leftMotionNum, int rightMotionNum, int colsize, int grzSize)
+	:GameObject(GD::MyShipList, GD::StageX(0.5),
+		GD::stageSizeY - 40, stopMotionID, stopMotionNum,
+		stopMotionID+stopMotionNum, leftMotionNum,
+		stopMotionID+stopMotionNum+leftMotionNum, rightMotionNum,
+		colsize, grzSize)
+{
+}
+
+
+int MyShip::Move()
+{
+	static int t = 0, itv = 0;
+	static bool grzable = true;
+	MoveSub();
+	m_spd = PUSHING(GD::LShift) ? LowSpeed : HighSpeed;
+	if (IS_PUSHING(GD::Up | GD::Down) &&
+		IS_PUSHING(GD::Left | GD::Right)) {
+		m_spd /= sqrt(2.0);
+	}
+	if (PUSHED(GD::B5)) isInvincible = !isInvincible;
+	if (x < 40)x = 40;
+	if (y < 40)y = 40;
+	int max = GD::StageX(1.0) - GD::Res->Find(textureID)->GetSizeX();
+	if (x > max)x = max;
+	if (y > GD::stageSizeY)y = GD::stageSizeY;
+
+	if (!isInvincible &&
+		(IsHit(GD::BulletList) || IsHit(GD::EnemyList))) {
+		alive = false;
+		GD::Res->SFind(S_DEAD)->Play(160);
+	}
+	if (IsGraze(GD::BulletList) && grzable) {
+		GD::score += 100;
+		GD::Res->SFind(S_GRAZE)->Play(250);
+		grzable = false;
+		itv = 1;
+	}
+	itv--;
+	if (itv < 0) grzable = true;
+	CalcResion();
+	return 0;
+}
+
+
+MyShip::~MyShip()
+{
+
 }
 
 void * Enemy::operator new(size_t n)
@@ -151,10 +310,10 @@ Bullet::Bullet(int x, int y, float angle, float v_angle, float speed, float v_sp
 {
 }
 
-Bullet::Bullet(Texture * bulletTexture, int x, int y, float angle, float v_angle, float speed, float v_speed,int colSize)
+Bullet::Bullet(Texture * bulletTexture, int x, int y, float angle, float v_angle, float speed, float v_speed,int colSize,int grzSize)
 	:GameObject(
 		GD::BulletList,
-		x, y, angle,colSize),
+		x, y, angle,colSize,grzSize),
 	v_angle(v_angle),
 	speed(speed),
 	v_speed(v_speed)

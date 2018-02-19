@@ -16,11 +16,15 @@ TitleScene::TitleScene()
 	mainmenu->SetTextColors(GetColor(255, 255, 255),
 		GetColor(255, 0, 0), GetColor(0, 0, 255));
 	mainmenu->SetPosition(350, 450, 40);
+
+	bgm = new MusicObject("Data/Music/d_title.mp3");
 }
 
 
 TitleScene::~TitleScene()
 {
+	bgm->Stop();
+	delete bgm;
 	delete mainmenu;
 }
 

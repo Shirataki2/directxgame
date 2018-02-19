@@ -30,6 +30,6 @@ public:
 
 class MusicObject {
 public:
-	MusicObject(char *src);
+	MusicObject(char *src, int vol = 255);
 	virtual void Stop();
 };

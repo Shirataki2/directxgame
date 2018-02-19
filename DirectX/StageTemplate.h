@@ -5,6 +5,8 @@
 #include "Task.h"
 #include "Enemies.h"
 #include "Score.h"
+#include "SceneManager.h"
+class SceneManager;
 class StageTemplate :
 	public IBaseScene
 {
@@ -12,6 +14,7 @@ class StageTemplate :
 	Enemy *enemy1 = 0;
 	StaticObject *frame = 0;
 	Score *score = 0;
+	MusicObject *bgm = 0;
 public:
 	StageTemplate();
 	~StageTemplate();

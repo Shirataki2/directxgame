@@ -3,16 +3,21 @@
 
 StageTemplate::StageTemplate()
 {
-	myship = new MyShip(GD::Res->Find(T_MSHIP),3);
+	//myship = new MyShip(GD::Res->Find(T_MSHIP),3);
+	myship = new MyShip(GD::Res->DFind(T_MYSHIP),
+		T_MYSHIP, 2, 2, 2, 3, 13);
 	enemy1 = new DebugEmemy(GD::Res->Find(T_D_ENEMY),
 		0.0f, 0.008f, 1200.0 , 3.0);
 	frame = new StaticObject(GD::Res->Find(T_BACK));
-	score = new Score(T_BITNUM, 750, 153, 10);
+	score = new Score(T_BITNUM, 750, 156, 10);
+	bgm = new MusicObject("Data/Music/d_boss1.mp3",128);
 }
 
 
 StageTemplate::~StageTemplate()
 {
+	bgm->Stop();
+	delete myship, enemy1, frame, score, bgm;
 }
 
 void StageTemplate::Update()
@@ -21,6 +26,10 @@ void StageTemplate::Update()
 	UpdateTask(GD::BulletList);
 	UpdateTask(GD::EnemyList);
 	UpdateTask(GD::CommonList);
+#ifdef _DEBUG
+	if (PUSHED(GD::B8))SceneManager::ChangeScene(SceneManager::TITLE);
+#endif // _DEBUG
+
 }
 
 void StageTemplate::UpdateTask(TaskList * list)
@@ -30,6 +39,7 @@ void StageTemplate::UpdateTask(TaskList * list)
 		obj->Move();
 		if (!obj->alive) i.Remove();
 	}
+
 }
 
 void StageTemplate::Draw()

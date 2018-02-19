@@ -1,6 +1,7 @@
 #pragma once
 #include "TitleScene.h"
 #include "StageTemplate.h"
+#include "GameData.h"
 
 class SceneManager
 {

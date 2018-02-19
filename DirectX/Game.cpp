@@ -11,8 +11,12 @@ bool Game::Loading()
 void Game::ResourceInit()
 {
 	GD::Res->Register(
-		T_MSHIP,
-		new Texture(T_MSHIP, "Data/Img/MyShip.png"));
+		T_D_MSHIP,
+		new Texture(T_D_MSHIP, "Data/Img/MyShip.png"));
+	GD::Res->Register(
+		T_MYSHIP,
+		new DivTexture(T_MYSHIP, "Data/Img/reimu.png",
+			6, 2, 3, 50, 50));
 	GD::Res->Register(
 		T_D_ENEMY,
 		new Texture(T_D_ENEMY, "Data/Img/EnemyDummy.png"));
@@ -26,6 +30,22 @@ void Game::ResourceInit()
 		T_NBUL,
 		new DivTexture(T_NBUL, "Data/Img/bul.png",
 			9, 9, 1, 16, 16));
+	GD::Res->Register(
+		T_FUGUBUL,
+		new DivTexture(T_FUGUBUL, "Data/Img/fgss.png",
+			8, 8, 1, 20, 18));
+	GD::Res->Register(
+		T_SBIGBUL,
+		new DivTexture(T_SBIGBUL, "Data/Img/big.png",
+			8, 4, 2, 64, 64));
+	GD::Res->Register(
+		T_KNIFBUL,
+		new DivTexture(T_KNIFBUL, "Data/Img/knife.png",
+			8, 8, 1, 17, 32));
+	GD::Res->Register(
+		T_FUDABUL,
+		new DivTexture(T_FUDABUL, "Data/Img/fuda.png",
+			10, 10, 1, 17, 18));
 	GD::Res->Register(
 		T_BITNUM,
 		new DivTexture(T_BITNUM, "Data/Img/nums.png",
@@ -91,7 +111,6 @@ int Game::Instantiate(int sizeX,int sizeY,int windowMode,std::string windowName)
 	}
 	SceneManager::ChangeScene(SceneManager::TITLE);
 	fps = new FPS(GameData::NormalizedX(0.9), 0);
-	dbgSound = new MusicObject("Data/Music/dummy.mp3");
 	return 0;
 }
 
