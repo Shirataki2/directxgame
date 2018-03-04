@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "MenuElement.h"
 #include "GameData.h"
 #include "SoundObject.h"
@@ -15,16 +16,18 @@ class MenuContainer
 	int m_txtColorExecuted;
 	int m_pSelect;
 	char *names[maxElem];
+	int ids[maxElem], handles[maxElem];
 	SoundObject *selectSound;
 	SoundObject *executeSound;
 	MenuElement *elements[maxElem];
 public:
 	bool IsLoadingResources();
 	MenuContainer(int nElem, bool isImage,int fontHandle = -1);
-	void SetSource(int id, char *name);
+	void SetSource(int numid, char *name);
+	void SetSource(int numid, int texid);
 	void SetTextColors(int normal, int select, int execute);
 	void SetPosition(int x, int y, int interval);
-	void SetSelect(int id);
+	void SetSelect(int numid);
 	int GetSelect();
 	void Update();
 	void Draw();

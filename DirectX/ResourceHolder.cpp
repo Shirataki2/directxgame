@@ -46,7 +46,7 @@ Texture * ResourceHolder::Find(int id)
 		return it->second;
 	}
 	else {
-		return 0;
+		return new Texture(0x000, "Data/Img/null.png", false);
 	}
 }
 Texture * ResourceHolder::DFind(int id)
@@ -56,7 +56,7 @@ Texture * ResourceHolder::DFind(int id)
 		return it->second;
 	}
 	else {
-		return 0;
+		return new Texture(0x000, "Data/Img/null.png", false);
 	}
 }
 SoundObject * ResourceHolder::SFind(int id)

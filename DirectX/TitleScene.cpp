@@ -8,14 +8,12 @@ MenuContainer TitleScene::*mainmenu = NULL;
 
 TitleScene::TitleScene()
 {
-	mainmenu = new MenuContainer(4, false);
-	mainmenu->SetSource(0, "New Game");
-	mainmenu->SetSource(1, "Load Game");
-	mainmenu->SetSource(2, "Config");
-	mainmenu->SetSource(3, "Exit");
-	mainmenu->SetTextColors(GetColor(255, 255, 255),
-		GetColor(255, 0, 0), GetColor(0, 0, 255));
-	mainmenu->SetPosition(350, 450, 40);
+	mainmenu = new MenuContainer(4, true);
+	for (int i = 0; i < 4; i++)
+	{
+		mainmenu->SetSource(i, T_TMENU + i);
+	}
+	mainmenu->SetPosition(360, 380, 60);
 
 	bgm = new MusicObject("Data/Music/d_title.mp3");
 }
@@ -30,7 +28,6 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
-	typedef GameData gd;
 	if (mainmenu->IsLoadingResources()) return;
 	mainmenu->Update();
 	if (PUSHED(GD::Button1)) {

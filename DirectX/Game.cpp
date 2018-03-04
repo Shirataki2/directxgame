@@ -11,6 +11,12 @@ bool Game::Loading()
 void Game::ResourceInit()
 {
 	GD::Res->Register(
+		T_MYSHOT,
+		new Texture(T_MYSHOT, "Data/Img/mybullet.png"));
+	GD::Res->Register(
+		T_MYBEAM,
+		new Texture(T_MYBEAM, "Data/Img/beam.png"));
+	GD::Res->Register(
 		T_D_MSHIP,
 		new Texture(T_D_MSHIP, "Data/Img/MyShip.png"));
 	GD::Res->Register(
@@ -18,8 +24,18 @@ void Game::ResourceInit()
 		new DivTexture(T_MYSHIP, "Data/Img/reimu.png",
 			6, 2, 3, 50, 50));
 	GD::Res->Register(
+		T_MYSHIP,
+		new DivTexture(T_MYSHIP, "Data/Img/reimu.png",
+			6, 2, 3, 50, 50));
+	GD::Res->Register(
 		T_D_ENEMY,
 		new Texture(T_D_ENEMY, "Data/Img/EnemyDummy.png"));
+	GD::Res->Register(
+		T_PAUSE,
+		new Texture(T_PAUSE, "Data/Img/pause.png"));
+	GD::Res->Register(
+		T_P_BACK,
+		new Texture(T_P_BACK, "Data/Img/black.png"));
 	GD::Res->Register(
 		T_D_BUL,
 		new Texture(T_D_BUL, "Data/Img/BulletDummy.png"));
@@ -51,6 +67,10 @@ void Game::ResourceInit()
 		new DivTexture(T_BITNUM, "Data/Img/nums.png",
 			10, 10, 1, 32, 32));
 	GD::Res->Register(
+		T_TMENU,
+		new DivTexture(T_TMENU, "Data/Img/menu.png",
+			4, 1, 4, 210, 40));
+	GD::Res->Register(
 		S_DEAD,
 		new SoundObject("Data/Sound/Th/dead.wav"));
 	GD::Res->Register(
@@ -59,6 +79,9 @@ void Game::ResourceInit()
 	GD::Res->Register(
 		S_GRAZE,
 		new SoundObject("Data/Sound/Th/graze.wav"));
+	GD::Res->Register(
+		S_E_HIT,
+		new SoundObject("Data/Sound/Th/enemy_damage.wav"));
 }
 
 Game::Game()

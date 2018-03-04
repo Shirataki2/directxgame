@@ -57,8 +57,10 @@ class MyShip :
 	public GameObject
 {
 	float m_spd;
+	float m_shotspd = 37, m_beamspd = 31;
 	bool isInvincible = false;
 	void MoveSub();
+	void ShotSub();
 public:
 	float HighSpeed = 4.0, LowSpeed = 1.8;
 	void *operator new(size_t n);
@@ -80,11 +82,28 @@ public:
 	~MyShip();
 };
 
+class MyShipShot :
+	public GameObject {
+	float m_spd;
+	float m_pow;
+	bool sync;
+	MyShip *m_target;
+public:
+	void *operator new(size_t n);
+	void operator delete(void *p);
+	virtual int Draw();
+	MyShipShot(Texture *texture, float speed, MyShip *target,float power ,bool syncX = false, double angle = 0, int col = 20, int grz = 0);
+	void SetPower(float pow);
+	virtual int Move();
+};
+
+
 class Enemy :
 	public GameObject
 {
+protected:
 public:
-	int t = 0;
+	int m_hp = 100;
 	void *operator new(size_t n);
 	void operator delete(void *p);
 	virtual int Draw();
@@ -122,4 +141,19 @@ public:
 	StaticObject(int textureid, int x, int y, int nums);
 	virtual int Draw();
 	StaticObject(Texture *texture,double x,double y);
+};
+
+class OnPauseObject :
+	public GameObject {
+	int fadein = 50;
+	int fadeout = 50;
+	int time = 0;
+	bool isBlink;
+public:
+	void *operator new(size_t n);
+	void operator delete(void *p);
+	OnPauseObject(int textureid, int x, int y,bool isBlink=true);
+	~OnPauseObject();
+	virtual int Move();
+	virtual int Draw();
 };

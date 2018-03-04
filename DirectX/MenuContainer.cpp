@@ -33,6 +33,13 @@ void MenuContainer::SetSource(int id, char *name)
 
 }
 
+void MenuContainer::SetSource(int numid, int texid)
+{
+	ids[numid] = texid;
+	handles[numid] = GD::Res->Find(texid)->GetHandle();
+	elements[numid] = new MenuElement(texid);
+}
+
 void MenuContainer::SetTextColors(int normal, int select, int execute) {
 	m_txtColorNormal = normal;
 	m_txtColorSelected = select;
@@ -82,8 +89,6 @@ void MenuContainer::Update()
 
 void MenuContainer::Draw()
 {
-	DrawFormatString(0, 25, GetColor(255, 255, 255),
-		"%d", m_pSelect);
 	for (size_t i = 0; i < m_nElem; i++)
 	{
 		elements[i]->Draw();

@@ -2,9 +2,11 @@
 #include "DxLib.h"
 #include "Texture.h"
 #include "SoundObject.h"
+#include "GameData.h"
 #include <map>
 class Texture;
 class SoundObject;
+class GameData;
 
 class ResourceHolder
 {

@@ -117,6 +117,11 @@ void GameObject::SetTexture(Texture * texture)
 
 void MyShip::MoveSub()
 {
+	m_spd = PUSHING(GD::LShift) ? LowSpeed : HighSpeed;
+	if (IS_PUSHING(GD::Up | GD::Down) &&
+		IS_PUSHING(GD::Left | GD::Right)) {
+		m_spd /= sqrt(2.0);
+	}
 	switch (isMultiTexture)
 	{
 	case true:
@@ -151,9 +156,33 @@ void MyShip::MoveSub()
 		if (PUSHING(GD::Left))  x -= m_spd;
 		if (PUSHING(GD::Right)) x += m_spd;
 		break;
-	default:
-		break;
 	}
+	if (PUSHED(GD::B5)) isInvincible = !isInvincible;
+	if (x < 40)x = 40;
+	if (y < 40)y = 40;
+	int max = GD::StageX(1.0) - GD::Res->Find(textureID)->GetSizeX();
+	if (x > max)x = max;
+	if (y > GD::stageSizeY)y = GD::stageSizeY;
+}
+
+void MyShip::ShotSub()
+{
+	static int t = 0, shotItv = 2, beamItv = 1;
+	if (PUSHING(GD::Button1)) {
+		if (PUSHING(GD::LShift)) {
+			if (t%beamItv == 0) {
+				new MyShipShot(GD::Res->Find(T_MYBEAM),
+					m_beamspd, this, 2, true, 0, 25);
+			}
+		}
+		else if (t%shotItv == 0) {
+			for (int i = -3; i <= 3; i++) {
+				new MyShipShot(GD::Res->Find(T_MYSHOT),
+					m_shotspd, this, 4, false, i*0.0125, 20);
+			}
+		}
+	}
+	t++;
 }
 
 void * MyShip::operator new(size_t n) {
@@ -216,25 +245,14 @@ int MyShip::Move()
 	static int t = 0, itv = 0;
 	static bool grzable = true;
 	MoveSub();
-	m_spd = PUSHING(GD::LShift) ? LowSpeed : HighSpeed;
-	if (IS_PUSHING(GD::Up | GD::Down) &&
-		IS_PUSHING(GD::Left | GD::Right)) {
-		m_spd /= sqrt(2.0);
-	}
-	if (PUSHED(GD::B5)) isInvincible = !isInvincible;
-	if (x < 40)x = 40;
-	if (y < 40)y = 40;
-	int max = GD::StageX(1.0) - GD::Res->Find(textureID)->GetSizeX();
-	if (x > max)x = max;
-	if (y > GD::stageSizeY)y = GD::stageSizeY;
+	ShotSub();
 
-	if (!isInvincible &&
-		(IsHit(GD::BulletList) || IsHit(GD::EnemyList))) {
-		alive = false;
+	if ((IsHit(GD::BulletList) || IsHit(GD::EnemyList))) {
+		if(!isInvincible) {alive = false;}
 		GD::Res->SFind(S_DEAD)->Play(160);
 	}
 	if (IsGraze(GD::BulletList) && grzable) {
-		GD::score += 100;
+		GD::score += 200;
 		GD::Res->SFind(S_GRAZE)->Play(250);
 		grzable = false;
 		itv = 1;
@@ -270,6 +288,7 @@ int Enemy::Draw()
 	}
 	return 0;
 }
+
 
 Enemy::Enemy()
 	:GameObject(
@@ -368,16 +387,112 @@ StaticObject::StaticObject(Texture * texture, double x, double y)
 
 void * StaticObject::operator new(size_t n)
 {
-	return GD::EnemyList->New(n);
+	return GD::CommonList->New(n);
 }
 
 void StaticObject::operator delete(void * p)
 {
-	GD::EnemyList->Delete(p);
+	GD::CommonList->Delete(p);
 }
 
 int StaticObject::Draw()
 {
 	DrawGraph(x, y, textureHandle, TRUE);
+	return 0;
+}
+
+MyShipShot::MyShipShot(Texture *texture, float speed, MyShip *target, float power, bool syncX, double angle, int col, int grz)
+	:m_target(target),
+	sync(syncX),
+	m_pow(power),
+	m_spd(speed),
+	GameObject(GD::MyShotList, target->x, target->y, angle, col, grz)
+{
+	SetTexture(texture);
+}
+
+void MyShipShot::SetPower(float pow)
+{
+	m_pow = pow;
+}
+
+int MyShipShot::Move()
+{
+	if (sync) {
+		x = m_target->x;
+	}
+	else {
+		x += m_spd * cos(angle * 2 * pi + pi / 2);
+	}
+	y -= m_spd * sin(angle*2*pi + pi / 2) ;
+
+	for (TaskIter i(GD::EnemyList); i.HasNext();) {
+		Enemy *e = (Enemy*)i.Next();
+		if (IsHit(e)) {
+			e->m_hp -= m_pow;
+			GD::Res->SFind(S_E_HIT)->Play(180);
+			GD::score += 5;
+			alive = false;
+		}
+	}
+
+	if (y < -50) alive = false;
+	return 0;
+}
+
+void * MyShipShot::operator new(size_t n) {
+	return GD::MyShotList->New(n);
+}
+void MyShipShot::operator delete(void *p) {
+	GD::MyShotList->Delete(p);
+}
+int MyShipShot::Draw()
+{
+	DrawRotaGraph(x + m_target->cx,
+		y,
+		0.5, -2*pi*angle, textureHandle, TRUE);
+	if (GD::isColVisible) {
+		DrawCircle(x + cx, y + cy, grzSize, GetColor(0, 0, 255));
+		DrawCircle(x + cx, y + cy, colSize, GetColor(0, 255, 0));
+	}
+
+	return 0;
+}
+
+void * OnPauseObject::operator new(size_t n)
+{
+	return GD::OnPauseList->New(n);
+}
+
+void OnPauseObject::operator delete(void * p)
+{
+	GD::OnPauseList->Delete(p);
+}
+
+OnPauseObject::OnPauseObject(int textureid, int x, int y, bool isBlink)
+	:GameObject(GD::OnPauseList,x,y,0),
+	isBlink(isBlink)
+{
+	time = 0;
+	SetTexture(GD::Res->Find(textureid));
+}
+
+OnPauseObject::~OnPauseObject()
+{
+}
+
+int OnPauseObject::Move()
+{
+	if (!GD::isPaused) { time = 0; return 0; };
+	time++;
+	if (time < fadein)x = GD::StageX(0.5) - 0.3*time / fadein;
+}
+
+int OnPauseObject::Draw()
+{
+	SetUseBackBufferTransColorFlag(FALSE);
+	if (isBlink)SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, 192+63*sin(time/20.0));
+	DrawRotaGraph(x, y, 1, 0, textureHandle, TRUE);
+	SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, NULL);
 	return 0;
 }

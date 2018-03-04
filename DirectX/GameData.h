@@ -4,7 +4,6 @@
 #include <math.h>
 #include "ResourceHolder.h"
 #include "SoundObject.h"
-class ResouceHolder;
 
 #define PUSHED(button) (GD::keyState & (button))
 #define IS_PUSHED(button) ((GD::keyState & (button)) != 0)
@@ -17,6 +16,8 @@ class ResouceHolder;
 #define T_NIL		0x000
 #define T_D_MSHIP	0x001
 #define T_MYSHIP	0x002 // 002 - 007
+#define T_MYSHOT	0x008
+#define T_MYBEAM	0x009
 //100 - 2FF 敵機関連のテクスチャ
 #define T_D_ENEMY	0x100
 //300 - 7FF 　弾関連のテクスチャ
@@ -28,11 +29,17 @@ class ResouceHolder;
 #define T_FUDABUL	0x340 // 340 - 34A
 //800 - 9FF 静的オブジェクトのテクスチャ
 #define T_BACK		0x800
+#define T_TMENU		0x801 // 801 - 804
+#define T_PAUSE		0x805 
+#define T_P_BACK	0x806 
 #define T_BITNUM	0x810 // 810 - 819
 //A00 - AFF 効果音
 #define S_DEAD		0xA00
 #define S_E_SHOT	0xA01
 #define S_GRAZE		0xA02
+#define S_E_HIT		0xA03
+
+class ResourceHolder;
 
 class GameData {
 public:
@@ -55,6 +62,7 @@ public:
 		B0			= 1 << 15,
 	};
 	static unsigned long long score;
+	static bool isPaused;
 	static int isColVisible;
 	static ResourceHolder *Res;
 	static unsigned int keyState;
@@ -75,13 +83,14 @@ public:
 	static int StageY(double t);
 	static void KeyUpdate();
 	static void MoveTo(double & x, double & y, int dst_x, int dst_y, double t);
+	static TaskList *MyShotList;
 	static TaskList *MyShipList;
 	static TaskList *EnemyList;
 	static TaskList *BulletList;
 	static TaskList *CommonList;
+	static TaskList *OnPauseList;
 	static void InitTask(TaskList* list);
 	static const float SPD;
-
 };
 
 typedef GameData GD;

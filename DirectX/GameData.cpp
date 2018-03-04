@@ -10,12 +10,15 @@ int GameData::regionSizeX = 740 / 2;
 int GameData::regionSizeY = 680 / 2;
 
 char GameData::key[256] = {0};
+bool GameData::isPaused = false;
 unsigned int GameData::keyState = 0;
 unsigned int GameData::keyStateOn = 0;
 TaskList* GameData::MyShipList = new TaskList(500, 3);
+TaskList* GameData::MyShotList = new TaskList(500, 200);
 TaskList* GameData::EnemyList = new TaskList(500, 100);
 TaskList* GameData::BulletList = new TaskList(300, 10000);
 TaskList* GameData::CommonList = new TaskList(500, 200);
+TaskList* GameData::OnPauseList = new TaskList(500, 10);
 ResourceHolder* GameData::Res = NULL;
 int GameData::isColVisible = 0;
 const float GameData::SPD = 0.000002;

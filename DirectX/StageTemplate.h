@@ -10,12 +10,15 @@ class SceneManager;
 class StageTemplate :
 	public IBaseScene
 {
+public:
 	MyShip *myship = 0;
-	Enemy *enemy1 = 0;
+	Enemy *enemy1=0,*enemy2 = 0;
 	StaticObject *frame = 0;
 	Score *score = 0;
+	OnPauseObject *pause = 0;
+	OnPauseObject *back = 0;
 	MusicObject *bgm = 0;
-public:
+	static bool myshipAlive;
 	StageTemplate();
 	~StageTemplate();
 	virtual void Update();

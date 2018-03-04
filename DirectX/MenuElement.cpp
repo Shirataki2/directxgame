@@ -1,13 +1,17 @@
 #include "MenuElement.h"
 
 MenuElement::MenuElement(bool isImage, char * name,int fontHandle)
-	:m_isImage(isImage),
+	:m_isImage(false),
 	m_name(name)
 {
-	if (m_isImage) {
-		m_imgHandle = LoadGraph(m_name);
-	}
 	if (fontHandle != -1) m_fontHandle = fontHandle;
+}
+
+MenuElement::MenuElement(int id, int fontHandle)
+{
+	m_isImage = true;
+	m_imgID = id;
+	m_imgHandle = GD::Res->Find(id)->GetHandle();
 }
 
 MenuElement::~MenuElement()
@@ -31,7 +35,10 @@ void MenuElement::SetTextColors(int normal, int select, int execute) {
 int MenuElement::Draw()
 {
 	if (m_isImage) {
-		DrawGraph(m_x, m_y, m_imgHandle, TRUE);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_ALPHA, m_alpha);
+		double _ = 0;
+		DrawGraph(m_x - 30 * isSelect, m_y, m_imgHandle, TRUE);
+		SetDrawBlendMode(DX_BLENDGRAPHTYPE_NORMAL, 255);
 	}
 	else if(m_fontHandle!=-1){
 		DrawStringToHandle(m_x, m_y, m_name, m_txtColor, m_fontHandle);
@@ -45,12 +52,16 @@ int MenuElement::Draw()
 
 int MenuElement::Selected()
 {
+	isSelect = 1;
+	m_alpha = 255;
 	m_txtColor = m_txtColorSelected;
 	return 0;
 }
 
 int MenuElement::Disselected()
 {
+	isSelect = 0;
+	m_alpha = 96;
 	m_txtColor = m_txtColorNormal;
 	return 0;
 }
